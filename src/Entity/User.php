@@ -144,6 +144,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getPersonnalPicture(): ?string
     {
         return $this->personnal_picture;
+        
     }
 
     public function setPersonnalPicture(string $personnal_picture): static
