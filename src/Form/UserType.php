@@ -19,22 +19,27 @@ class UserType extends AbstractType
                 'expanded' => true,
                 'choices' => [
                     'admin' => 'ROLE_ADMIN',
-                    'user' => 'ROLE_USER'
+                    'employé•e' => 'ROLE_USER'
                 ]])
             ->add('password')
             ->add('firstname')
             ->add('lastname')
             ->add('personnal_picture')
-            // ->add('departement')
+            //Problème dans le form "The selected choice is invalid" apparait par défaut au dessus du selecteur de choix.
             ->add('departement', ChoiceType::class, [
-                'multiple' => true,
-                'expanded' => true,
+                'choices' => [
+                    'RH' => 'DEPARTMENT_RH',
+                    'Direction ' => 'DEPARTMENT_DIRECTION',
+                    'Informatique' => 'DEPARTMENT_INFORMATIQUE',
+                    'Comptabilité' => 'DEPARTMENT_COMPTABILITE'
+                ]])
+            //Problème dans le form "The selected choice is invalid" apparait par défaut au dessus du selecteur de choix.
+            ->add('contract_type', ChoiceType::class, [
                 'choices' => [
                     'CDI' => 'CONTRACT_TYPE_CDI',
                     'CDD' => 'CONTRACT_TYPE_CDD',
                     'Intérim' => 'CONTRACT_TYPE_INTERIM'
                 ]])
-            ->add('contract_type')
             ->add('contract_end')
         ;
     }
