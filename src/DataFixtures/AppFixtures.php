@@ -9,12 +9,51 @@ use Faker;
 
 class AppFixtures extends Fixture
 {
+    const DEPARTMENT = [
+        'RH',
+        'Informatique',
+        'Direction',
+        'Comptabilité',
+    ];
+    const CONTRACT_TYPE = [
+        'CDI',
+        'CDD',
+        'Intérim',
+    ];
+
     public function load(ObjectManager $manager): void
     {
         // $user = new User();
         // $manager->persist($user);
 
         // $manager->flush();
+
+
+// $users = [];
+//         $plaintextPassword = 'user';
+//         for ($i = 0; $i < self::NB_USER; $i++) {
+//             $user = new User();
+
+//             $user
+//                 ->setEmail($faker->email())
+//                 ->setFirstname($faker->firstName())
+//                 ->setLastname($faker->lastName())
+//                 ->setRoles(["ROLE_USER"])
+//                 ->setDateCreated($faker->dateTime())
+//                 ->setContractType($faker->randomElement($contracts))
+//                 ->setSector($faker->randomElement($sectors))
+//                 ->addTask($faker->randomElement($tasks));
+
+
+//             $hashedPassword = $this->userPasswordHasher->hashPassword(
+//                 $user,
+//                 $plaintextPassword
+//             );
+//             $user->setPassword($hashedPassword);
+//             $manager->persist($user);
+
+
+
         $faker = Faker\Factory::create('fr_FR');
         // on crée 4 Users avec noms et prénoms "aléatoires" en français
         $users = Array();
@@ -29,8 +68,11 @@ class AppFixtures extends Fixture
             // setImage(/uploads);
             //or
             // https://i.pravatar.cc/
-            $users[$i]->setDepartement($faker->departement); //ne marche pas snif snif "mauvais format"
-            $users[$i]->setContractType($faker->contract_type); //ne marche pas snif snif "mauvais format"
+            $users[$i]->setDepartement($faker->randomElement(self::DEPARTMENT)); //ne marche pas snif snif "mauvais format"
+//             const NBFF : ['rh, gdg,'];
+//              setSector($faker->randomElement(self:NBFF));
+
+            $users[$i]->setContractType($this->$faker->randomElement(self::CONTRACT_TYPE)); //ne marche pas snif snif "mauvais format"
             $users[$i]->setContractEnd($faker->dateTimeBetween('-1 month', '+5 years'));
 
 
