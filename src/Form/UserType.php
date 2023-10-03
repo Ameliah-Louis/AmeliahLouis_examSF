@@ -58,7 +58,7 @@ class UserType extends AbstractType
             //Problème dans le form "The selected choice is invalid" apparait par défaut au dessus du selecteur de choix.
             ->add('departement', ChoiceType::class, [
                 'choices' => [
-                    'Sélection du département' => 'contract_type',
+                    'Sélection du département' => 'departement',
                     'RH' => 'RH',
                     'DIRECTION ' => 'DIRECTION',
                     'INFORMATIQUE' => 'INFORMATIQUE',

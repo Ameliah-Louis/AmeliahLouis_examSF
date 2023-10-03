@@ -20,17 +20,18 @@ class AppFixtures extends Fixture
         $users = Array();
         for ($i = 0; $i < 20; $i++) {
             $users[$i] = new User();
-            $users[$i]->setEmail($faker->email);
+            $users[$i]->setEmail($faker->unique()->email);
             // $users[$i]->setRoles($faker->roles);
             $users[$i]->setPassword($faker->password);
             $users[$i]->setFirstname($faker->firstname);
             $users[$i]->setLastname($faker->lastname);
-            $users[$i]->setPersonnalPicture($faker->image(/upload));
-            // image(/upload);
+            $users[$i]->setPersonnalPicture("uploads/150(".rand(1, 8).")");
+            // setImage(/uploads);
+            //or
             // https://i.pravatar.cc/
-            // $users[$i]->setDepartement($faker->departement);
-            // $users[$i]->setContractType($faker->contract_type);
-            // $users[$i]->setContractEnd($faker->contract_end);
+            $users[$i]->setDepartement($faker->departement); //ne marche pas snif snif "mauvais format"
+            $users[$i]->setContractType($faker->contract_type); //ne marche pas snif snif "mauvais format"
+            $users[$i]->setContractEnd($faker->dateTimeBetween('-1 month', '+5 years'));
 
 
 
