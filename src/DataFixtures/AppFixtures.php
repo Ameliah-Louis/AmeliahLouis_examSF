@@ -25,7 +25,9 @@ class AppFixtures extends Fixture
             $users[$i]->setPassword($faker->password);
             $users[$i]->setFirstname($faker->firstname);
             $users[$i]->setLastname($faker->lastname);
-            $users[$i]->setPersonnalPicture($faker->personnal_picture);
+            $users[$i]->setPersonnalPicture($faker->image(/upload));
+            // image(/upload);
+            // https://i.pravatar.cc/
             // $users[$i]->setDepartement($faker->departement);
             // $users[$i]->setContractType($faker->contract_type);
             // $users[$i]->setContractEnd($faker->contract_end);
