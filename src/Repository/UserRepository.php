@@ -8,6 +8,8 @@ use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+
 
 /**
  * @extends ServiceEntityRepository<User>
@@ -34,7 +36,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', $user::class));
         }
 
-        $user->setPassword($newHashedPassword);
+        $user->setPassword(password_hash($newHashedPassword, PASSWORD_BCRYPT));
         $this->getEntityManager()->persist($user);
         $this->getEntityManager()->flush();
     }
