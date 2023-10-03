@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+// use Symfony\Component\Security\Core\User\PasswordHasherInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker;
 
@@ -23,62 +24,68 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
+        // squelette basique
         // $user = new User();
         // $manager->persist($user);
-
         // $manager->flush();
-
-
-// $users = [];
-//         $plaintextPassword = 'user';
-//         for ($i = 0; $i < self::NB_USER; $i++) {
-//             $user = new User();
-
-//             $user
-//                 ->setEmail($faker->email())
-//                 ->setFirstname($faker->firstName())
-//                 ->setLastname($faker->lastName())
-//                 ->setRoles(["ROLE_USER"])
-//                 ->setDateCreated($faker->dateTime())
-//                 ->setContractType($faker->randomElement($contracts))
-//                 ->setSector($faker->randomElement($sectors))
-//                 ->addTask($faker->randomElement($tasks));
-
-
-//             $hashedPassword = $this->userPasswordHasher->hashPassword(
-//                 $user,
-//                 $plaintextPassword
-//             );
-//             $user->setPassword($hashedPassword);
-//             $manager->persist($user);
-
-
-
+        
+        //mauvaise façon de faire, j'ai tout repris par la suite.
+        //         $users = Array();
+        //         for ($i = 0; $i < SELF::NB_USER; $i++) {
+        //             $users[$i] = new User();
+        //             $users[$i]->setEmail($faker->unique()->email);
+        //             // $users[$i]->setRoles($faker->roles);
+        //             $users[$i]->setPassword($faker->password);
+        //             $users[$i]->setFirstname($faker->unique()->firstname);
+        //             $users[$i]->setLastname($faker->unique()->lastname);
+        //             $users[$i]->setPersonnalPicture("uploads/150(".rand(1, 8).")");
+        //             // setImage(/uploads);
+        //             //or
+        //             // https://i.pravatar.cc/
+        //             $users[$i]->setDepartement($faker->randomElement(self::DEPARTMENT)); //ne marche pas snif snif "mauvais format"
+        // //             const NBFF : ['rh, gdg,'];
+        // //              setSector($faker->randomElement(self:NBFF));
+        //             $users[$i]->setContractType($this->$faker->randomElement(self::CONTRACT_TYPE)); //ne marche pas snif snif "mauvais format"
+        //             $users[$i]->setContractEnd($faker->dateTimeBetween('-1 month', '+5 years'));
+        //             $manager->persist($users[$i]);
+        //         }
+        // on crée 4 Users avec des données "aléatoires" en français
         $faker = Faker\Factory::create('fr_FR');
-        // on crée 4 Users avec noms et prénoms "aléatoires" en français
-        $users = Array();
-        for ($i = 0; $i < 20; $i++) {
-            $users[$i] = new User();
-            $users[$i]->setEmail($faker->unique()->email);
-            // $users[$i]->setRoles($faker->roles);
-            $users[$i]->setPassword($faker->password);
-            $users[$i]->setFirstname($faker->firstname);
-            $users[$i]->setLastname($faker->lastname);
-            $users[$i]->setPersonnalPicture("uploads/150(".rand(1, 8).")");
-            // setImage(/uploads);
-            //or
-            // https://i.pravatar.cc/
-            $users[$i]->setDepartement($faker->randomElement(self::DEPARTMENT)); //ne marche pas snif snif "mauvais format"
-//             const NBFF : ['rh, gdg,'];
-//              setSector($faker->randomElement(self:NBFF));
 
-            $users[$i]->setContractType($this->$faker->randomElement(self::CONTRACT_TYPE)); //ne marche pas snif snif "mauvais format"
-            $users[$i]->setContractEnd($faker->dateTimeBetween('-1 month', '+5 years'));
-
-
-
-            $manager->persist($users[$i]);
-        }
-        $manager->flush();
+        $users = [];
+                
+                $plaintextPassword = 'user';
+                for ($i = 0; $i < 20; $i++) 
+                {
+                    $user = new User();
+                    
+                    //bloque pour le reste à cause du hasher donc mise en commentaire pour pouvoir add le user de correction.
+                    //création des users randomisés
+                    $user 
+                        ->setEmail($faker->unique()->email())
+                        ->setFirstname($faker->unique()->firstName())
+                        ->setLastname($faker->unique()->lastName())
+                        ->setRoles(["ROLE_USER"]) //car ce ne sont que des employés qui sont crées.
+                        ->setContractEnd($faker->unique()->dateTimeBetween('-1 month', '+5 years'))
+                        ->setContractType($faker->randomElement(self::CONTRACT_TYPE))
+                        ->setDepartement($faker->randomElement(self::DEPARTMENT))
+                        ->setPersonnalPicture("uploads/150(".rand(1, 8).")")
+                        ->setPassword(hashPassword('azerty123'));
+                    // j'ai give up sur la façon de faire ci dessous.
+                    // $hashedPassword = $this->userPasswordHasher->hashPassword(
+                    //     $user,
+                    //     $plaintextPassword
+                    // );
+                    // $user->setPassword($hashedPassword);
+                        $manager->persist($user);
+                }
+                $user = new User();
+            
+                            $user //le user spécial pour la correction
+                                ->setEmail('rh@hb.com')
+                                ->setRoles(["ROLE_ADMIN"])
+                                ->setPassword(hashPassword('azerty123'));
+                            $manager->persist($user);
+                $manager->flush();
     }
 }
